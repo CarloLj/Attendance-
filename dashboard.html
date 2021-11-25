@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Attendace+</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+    <script src="https://www.gstatic.com/firebasejs/8.3.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.3.0/firebase-storage.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.3.0/firebase-database.js"></script>
+  </head>
+  <body>
+    <h1> Hello Teacher</h1>
+    <div class="container">
+      <table class="table">
+        <thead>
+          <th>Numero de estudiante</th> <!-- Table Headers -->
+          <th>Nombre</th> <!-- Table Headers -->
+          <th>Apellido</th>
+          <th>Matricula</th>
+          <th>RFID</th>
+        </thead>
+
+        <tbody id="tbody1">
+
+        </tbody>
+      </table>
+    </div>
+  </body>
+  <script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.5.0/firebase-app.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    import { getDatabase, ref, onValue } from 'https://www.gstatic.com/firebasejs/9.5.0/firebase-database.js'
+    // https://firebase.google.com/docs/web/setup#available-libraries
+  
+    const firebaseConfig = {
+      apiKey: "AIzaSyB3MslqrUfPw56I3Oxh9piHjS_4bFbLA44",
+      authDomain: "salon-inteligente-65de7.firebaseapp.com",
+      databaseURL: "https://salon-inteligente-65de7-default-rtdb.firebaseio.com",
+      projectId: "salon-inteligente-65de7",
+      storageBucket: "salon-inteligente-65de7.appspot.com",
+      messagingSenderId: "337142710525",
+      appId: "1:337142710525:web:366f2c551de767b108fe94"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+
+    function SelectAllData() {
+      firebase.database().ref('estudiantes').once('value',
+      function(AllRecords) {
+        AllRecords.forEach(
+          function(CurrentRecord) {
+            var nombre = CurrentRecord.val().nombre;
+            var apellido = CurrentRecord.val().apellido;
+            var rfid = CurrentRecord.val().rfid;
+            var matricula = CurrentRecord.val().matricula;
+            console.log(nombre, apellido, rfid, matricula, "Hello world")
+            AddItemsToTable(nombre, apellido, rfid, matricula);
+          }
+        )
+      })
+    }
+
+    var count = 0;
+    function AddItemsToTable(nombre, apellido, rfid, matricula) { 
+      var tbody = document.getElementById('tbody1');
+      var trow = document.createElement('tr');
+      var td1 = document.createElement('td');
+      var td2 = document.createElement('td');
+      var td3 = document.createElement('td');
+      var td4 = document.createElement('td');
+      var td5 = document.createElement('td');
+      td1.innerHTML= ++count;
+      td2.innerHTML= nombre;
+      td3.innerHTML= apellido;
+      td4.innerHTML= matricula;
+      td5.innerHTML= rfid;
+      trow.appendChild(td1); 
+      trow.appendChild(td2); 
+      trow.appendChild(td3); 
+      trow.appendChild(td4);
+      trow.appendChild(td5);
+      tbody.appendChild(trow);
+    }
+
+    window.onload = SelectAllData;
+  </script>
+  <script src="./functions.js"></script>
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+</html>
