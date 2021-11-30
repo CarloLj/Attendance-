@@ -1,7 +1,7 @@
 body {
     font-family: "Lato", sans-serif;
 }
-  
+
   .sidebar {
     height: 100%;
     background-color: #0055a6;
@@ -14,7 +14,7 @@ body {
     transition: 0.5s;
     padding-top: 0px;
   }
-  
+
   .sidebar a {
     padding: 8px 8px 8px 32px;
     text-decoration: none;
@@ -23,7 +23,7 @@ body {
     display: block;
     transition: 0.3s;
   }
-  
+
   .sidebar a:hover {
     color: white;
   }
@@ -33,7 +33,7 @@ body {
       padding: 10%;
       height: 200px;
   }
-  
+
   .sidebar .closebtn {
     position: absolute;
     top: 0;
@@ -41,7 +41,7 @@ body {
     font-size: 36px;
     margin-left: 50px;
   }
-  
+
   .openbtn {
     font-size: 20px;
     cursor: pointer;
@@ -50,14 +50,332 @@ body {
     padding: 10px 15px;
     border: none;
   }
-  
+
   .openbtn:hover {
     background-color: #444;
   }
-  
+
   .btn-primary, .btn-primary:hover, .btn-primary:active, .btn-primary:visited {
     background-color: #8064A2 !important;
   }
+
+  .block-switch1 {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 12px;
+
+    position: absolute;
+    width: 216px;
+    height: 55px;
+    left: 21px;
+    top: 272px;
+
+    width: 216px;
+    height: 55px;
+
+    background: #F8F9FA;
+  }
+
+  .block-switch2 {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 12px;
+
+    position: absolute;
+    width: 216px;
+    height: 55px;
+    left: 20px;
+    top: 340px;
+
+    width: 216px;
+    height: 55px;
+
+    background: #F8F9FA;
+  }
+
+  .switch{
+    display: inline-block;
+    flex-direction: column;
+    align-items: flex-end;
+    padding: 2px;
+
+    position: absolute;
+    left: 86.72%;
+    right: 1.66%;
+    top: 36.36%;
+    bottom: 34.55%;
+
+    width: 25.1px;
+    height: 16px;
+
+    /* Global/03. Success */
+
+    /*background: #28A745;*/
+    /* Global/03. Success */
+
+    /*border: 1px solid #28A745;
+    box-sizing: border-box;
+    border-radius: 8px;*/
+  }
+
+  /* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 12px;
+  width: 12px;
+
+  left: 2px;
+  top: 2px;
+  background-color: white;
+
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #28A745;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #28A745;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(10px);
+  -ms-transform: translateX(10px);
+  transform: translateX(10px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+.text2{
+  position: static;
+  width: 159px;
+  height: 21px;
+  left: 0px;
+  top: 0px;
+
+  /* Components/Toasts/Header */
+
+  font-family: Quicksand;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 21px;
+  /* identical to box height, or 150% */
+
+
+  /* Text/02. Muted */
+
+  color: #6C757D;
+
+
+  /* Inside Auto Layout */
+
+  flex: none;
+  order: 1;
+  flex-grow: 0;
+  margin: 0px 8px;
+}
+
+.img-logo{
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  left: 100px;
+  top: 32px;
+
+  background: url(image2.png);
+}
+
+.text-salon{
+  /* Salon 4202 */
+  position: absolute;
+  width: 327px;
+  height: 51px;
+  left: 21px;
+  top: 103px;
+
+  font-family: Quicksand;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 36px;
+  line-height: 45px;
+
+  color: #FFFFFF;
+}
+
+.text-materia{
+  /* IoT grupo 13 */
+  position: absolute;
+  width: 78px;
+  height: 24px;
+  left: 21px;
+  top: 154px;
+
+  font-family: Quicksand;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 24px;
+  /* identical to box height, or 171% */
+
+
+  color: #FFFFFF;
+}
+
+.text-horario{
+  /* 7:00 - 13:00 */
+
+
+  position: absolute;
+  width: 138px;
+  height: 29px;
+  left: 140px;
+  top: 154px;
+
+  font-family: Quicksand;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 24px;
+  /* or 171% */
+
+
+  color: #FFFFFF;
+}
+
+.text-conf{
+  /* Configuración: */
+  position: absolute;
+  width: 134px;
+  height: 25px;
+  left: 21px;
+  top: 235px;
+
+  font-family: Quicksand;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 22px;
+
+  color: #FFFFFF;
+}
+
+.controles-luz{
+  position: absolute;
+  width: 211px;
+  height: 45px;
+  left: 20px;
+  top: 518px;
+}
+
+.controles-ventilador{
+  position: absolute;
+  width: 211px;
+  height: 45px;
+  left: 20px;
+  top: 619px;
+}
+
+.text-nose{
+  position: absolute;
+  left: 0%;
+  right: 43.08%;
+  top: 0%;
+  bottom: 46.67%;
+
+  font-family: Quicksand;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 24px;
+  /* identical to box height, or 133% */
+  color: #FFFFFF;
+}
+
+.pr-pos{
+  position: absolute;
+  left: 0%;
+  right: 0%;
+  top: 64.44%;
+  bottom: 0%;
+}
+
+.text-dato{
+  position: absolute;
+  width: 41px;
+  right: 2px;
+  top: 0%;
+  bottom: 46.67%;
+
+  font-family: Quicksand;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 24px;
+  /* identical to box height, or 133% */
+
+
+  color: #FFFFFF;
+}
+
+.text-luces{
+  position: relative;
+  left:0;
+  right: 0;
+  top: 95%;
+  bottom: 0;
+
+  font-family: Quicksand;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 12px;
+  line-height: 24px;
+  /* identical to box height, or 200% */
+
+
+  color: #FFFFFF;
+}
+
+.switch-pos2{
+  position: relative;
+  left:87.5%;
+  right: 0;
+  top: 15%;
+  bottom: 0;
+}
 
   #main {
     width: auto;
@@ -65,4 +383,4 @@ body {
     padding: 16px;
     margin-left: 25%;
   }
-  
+
