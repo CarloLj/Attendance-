@@ -6,13 +6,19 @@
     <title>Attendace+</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
     <script src="https://www.gstatic.com/firebasejs/8.3.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.3.0/firebase-storage.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.3.0/firebase-database.js"></script>
   </head>
   <body>
-    <h1> Hello Teacher</h1>
-    <div class="container">
+    <div id="mySidebar" class="sidebar">
+      <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+      <img src="image.png" alt="logotec">
+    </div>
+    <button class="btn btn-success" onclick="openNav()"><h2>☰</h2></button>  
+    <div id="main" class="container">
+      <h1 style="color: black;"> Attendance+</h1>
       <table class="table">
         <thead>
           <th>Numero de estudiante</th> <!-- Table Headers -->
@@ -20,10 +26,9 @@
           <th>Apellido</th>
           <th>Matricula</th>
           <th>RFID</th>
+          <th>Asisitió</th>
         </thead>
-
         <tbody id="tbody1">
-
         </tbody>
       </table>
     </div>
@@ -63,6 +68,32 @@
       })
     }
 
+    document.addEventListener('DOMContentLoaded', function() {
+      firebase.database().ref('salon').once('value',
+      function(AllRecords) {
+        AllRecords.forEach(
+          function(CurrentRecord) {
+            var salon = AllRecords.val();
+            var autoLuz = CurrentRecord.val().autoLuz;
+            var autoVentilador = CurrentRecord.val().autoVentilador;
+            var estadoLuces = CurrentRecord.val().estadoLuces;
+            var estadoVentilador = CurrentRecord.val().estadoVentilador;
+            var nivelLuz = CurrentRecord.val().nivelLuz;
+            var temperatura = CurrentRecord.val().temperatura;
+            console.log(Object.keys(salon)[0], autoLuz, autoVentilador, estadoLuces, estadoVentilador, nivelLuz, temperatura)
+            var salon = document.getElementById('salon')
+            var autoLuz = document.getElementById('autoLuz');
+            var autoVentilador = document.getElementById('autoVentilador');
+            var estadoLuces = document.getElementById('estadoLuces');
+            var estadoVentilador = document.getElementById('estadoVentilador');
+            var nivelLuz = document.getElementById('nivelLuz');
+            var temperatura = document.getElementById('temperatura');
+            //salon.innerHTML = Object.keys(salon)[0];
+          }
+        )
+      })
+    }, false);
+
     var count = 0;
     function AddItemsToTable(nombre, apellido, rfid, matricula) { 
       var tbody = document.getElementById('tbody1');
@@ -72,6 +103,7 @@
       var td3 = document.createElement('td');
       var td4 = document.createElement('td');
       var td5 = document.createElement('td');
+      var tdas = document.createElement('td');
       td1.innerHTML= ++count;
       td2.innerHTML= nombre;
       td3.innerHTML= apellido;
@@ -82,6 +114,16 @@
       trow.appendChild(td3); 
       trow.appendChild(td4);
       trow.appendChild(td5);
+      var checkbox = document.createElement('input');
+        checkbox.type = "checkbox";
+        checkbox.name = "name";
+        checkbox.value = "value";
+        
+        checkbox.id = nombre;   
+        checkbox.onclick = function() {
+          console.log("Hello there", nombre);
+        };
+      trow.appendChild(checkbox);
       tbody.appendChild(trow);
     }
 
