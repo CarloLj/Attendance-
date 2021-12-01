@@ -3,10 +3,29 @@ body {
 }
 
 #btnNav{
-  margin-top: 22%;
+  background-color: #0055a6;
+  margin-top: 20%;
+  width: 60px;
   padding-top: 40px;
   padding-bottom: 40px;
   position: fixed;
+  transition: ease 0.3s;
+}
+
+#btnNav:hover{
+  transition: ease 0.5s;
+  width: 5%;
+}
+
+#btnNav:hover > #bars{
+  transition: 0.5s;
+  font-size: 35px;
+}
+
+#bars{
+  text-align: center;
+  font-size: 28px;
+  transition: ease 0.3s;
 }
 
   .sidebar {
