@@ -198,6 +198,20 @@
     checkbox.id = matricula;
     checkbox.checked = false;
     checkbox.onclick = function () {
+      var check;
+      if (checkbox.checked) check = 1;
+      else check = 0;
+    
+      var current_time = new Date();
+      var hour = current_time.getHours();
+      if(hour < 10) hour = "0" + current_time.getHours().toString();
+      var minutes = current_time.getMinutes();
+      if(minutes < 10) minutes = "0"+ current_time.getMinutes().toString();
+
+      firebase.database().ref('lista_de_asistencia/1/lista_alumnos/'+matricula).set({
+          estado_asistencia: check,
+          hora_asistencia: hour+":"+minutes 
+      })
       console.log("Hello there", nombre);
     };
     trow.appendChild(checkbox);
