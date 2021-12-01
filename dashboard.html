@@ -117,11 +117,15 @@
             var apellido = CurrentRecord.val().apellido;
             var rfid = CurrentRecord.val().rfid;
             var matricula = CurrentRecord.val().matricula;
-            console.log(nombre, apellido, rfid, matricula, "Hello world")
-            AddItemsToTable(nombre, apellido, rfid, matricula);
+            console.log(nombre, apellido, rfid, matricula)
+            queryAsistio(nombre, apellido, rfid, matricula);
           }
         )
       })
+  }
+
+  function queryAsistio(nombre, apellido, rfid, matricula) {
+    AddItemsToTable(nombre, apellido, rfid, matricula);
   }
 
   document.addEventListener('DOMContentLoaded', function () {
