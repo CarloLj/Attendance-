@@ -237,6 +237,23 @@
       }
     )
 
+    firebase.database().ref('lista_de_asistencia/1/lista_alumnos').once('value',
+      function (AllRecords) {
+        var index = 0;
+        console.log(AllRecords.val());
+        var keys = Object.keys(AllRecords.val());
+        AllRecords.forEach(
+          function (currentRecord) {
+            n = currentRecord.val().n_asistencias;
+            if(currentRecord.val().estado_asistencia == 1){
+              firebase.database().ref('lista_de_asistencia/1/lista_alumnos/'+currentRecord.key).update({
+                n_asistencias: n + 1
+              })
+            }
+          }
+        );
+      })
+
   }
 
   window.onload = SelectAllData;
