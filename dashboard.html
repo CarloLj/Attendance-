@@ -42,7 +42,7 @@
 
     <div class="controles-luz">
       <p class="text-nose">Nivel de luz:</p>
-      <p id="nivelLuz" class="text-dato">12%</p>
+      <p id="nivelLuz" class="text-dato">-%</p>
       <div class="progress pr-pos">
         <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
       </div>
@@ -55,7 +55,7 @@
 
     <div class="controles-ventilador">
       <p class="text-nose">Temperatura:</p>
-      <p id="temperatura" class="text-dato">12°C</p>
+      <p id="temperatura" class="text-dato">-°C</p>
       <div class="progress pr-pos">
         <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
       </div>
@@ -129,7 +129,7 @@
   }
 
   document.addEventListener('DOMContentLoaded', function () {
-    firebase.database().ref('salon').once('value',
+    firebase.database().ref('salon').on('value',
       function (AllRecords) {
         AllRecords.forEach(
           function (CurrentRecord) {
