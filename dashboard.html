@@ -109,8 +109,10 @@
   firebase.initializeApp(firebaseConfig);
 
   function SelectAllData() {
-    firebase.database().ref('estudiantes').once('value',
+    firebase.database().ref('estudiantes').on('value',
       function (AllRecords) {
+        document.getElementById('tbody1').innerHTML = " ";
+        count = 0;
         AllRecords.forEach(
           function (CurrentRecord) {
             var nombre = CurrentRecord.val().nombre;
@@ -122,6 +124,8 @@
           }
         )
       })
+    
+    //firebase.database().ref().
   }
 
   document.addEventListener('DOMContentLoaded', function () {
