@@ -123,9 +123,25 @@
             AddItemsToTable(nombre, apellido, rfid, matricula);
           }
         )
+        UpdateCheckbox();
       })
-    
     //firebase.database().ref().
+  }
+
+  function UpdateCheckbox() {
+    firebase.database().ref('lista_de_asistencia/1/lista_alumnos').on('value',
+      function (AllRecords) {
+        var index = 0;
+        console.log(AllRecords.val());
+        var keys = Object.keys(AllRecords.val());
+        AllRecords.forEach(
+          function (currentRecord) {
+            var asistencia = currentRecord.val().estado_asistencia;
+            document.getElementById(keys[index]).checked = asistencia;
+            index++;
+          }
+        );
+      })
   }
 
   document.addEventListener('DOMContentLoaded', function () {
@@ -179,7 +195,7 @@
     checkbox.name = "name";
     checkbox.value = "value";
 
-    checkbox.id = nombre;
+    checkbox.id = matricula;
     checkbox.checked = false;
     checkbox.onclick = function () {
       console.log("Hello there", nombre);
