@@ -19,15 +19,15 @@
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
     <!--<img src="image2.png" alt="logotec" class="img-logo">-->
     <div class="img-logo"></div>
-    <p class="text-salon">Salon 4202</p>
-    <p class="text-materia">Iot Grupo 13</p>
-    <p class="text-horario">7:00 - 13:00</p>
+    <p id="salon" class="text-salon">s-</p>
+    <p id="materia" class="text-materia">Iot Grupo 13</p>
+    <p id="horario" class="text-horario">7:00 - 13:00</p>
     <p class="text-conf">Configuración</p>
 
     <div class="block-switch1">
       <p class="text2">Iluminación Automática</p>
       <label class="switch">
-        <input type="checkbox">
+        <input id="autoLuz" type="checkbox">
         <span class="slider round"></span>
       </label>
     </div>
@@ -35,39 +35,39 @@
     <div class="block-switch2">
       <p class="text2">Ventilación Automática</p>
       <label class="switch">
-        <input type="checkbox">
+        <input id="autoVentilador" type="checkbox">
         <span class="slider round"></span>
       </label>
     </div>
 
-
     <div class="controles-luz">
       <p class="text-nose">Nivel de luz:</p>
-      <p class="text-dato">12%</p>
+      <p id="nivelLuz" class="text-dato">-%</p>
       <div class="progress pr-pos">
         <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
       </div>
       <p class="text-luces">Luces:</p>
       <label class="switch switch-pos2">
-        <input type="checkbox">
+        <input id="estadoLuces" onclick="estadoLucesChange()" type="checkbox">
         <span class="slider round"></span>
       </label>
     </div>
 
     <div class="controles-ventilador">
       <p class="text-nose">Temperatura:</p>
-      <p class="text-dato">12°C</p>
+      <p id="temperatura" class="text-dato">-°C</p>
       <div class="progress pr-pos">
         <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
       </div>
       <p class="text-luces">Ventiladores:</p>
       <label class="switch switch-pos2">
-        <input type="checkbox">
+        <input id="estadoVentilador" onclick="estadoVentiladorChange()" type="checkbox">
         <span class="slider round"></span>
       </label>
     </div>
 
   </div>
+  
   <button class="btn btn-success" onclick="openNav()">
     <h2>☰</h2>
   </button>
