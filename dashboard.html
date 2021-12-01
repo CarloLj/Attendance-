@@ -19,7 +19,7 @@
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
     <!--<img src="image2.png" alt="logotec" class="img-logo">-->
     <div class="img-logo"></div>
-    <p id="salon" class="text-salon">s-</p>
+    <p id="salon" class="text-salon" align="center">s-</p>
     <p id="materia" class="text-materia">Iot Grupo 13</p>
     <p id="horario" class="text-horario">7:00 - 13:00</p>
     <p class="text-conf">Configuración</p>
@@ -73,7 +73,7 @@
   </button>
   <div id="main" class="container">
     <h1 style="color: black;"> Attendance+</h1>
-
+    <br/>
     <button type="button" class="btn btn-success"
       onclick="document.getElementById('finalizar').disabled=false; this.disabled=true" id="iniciar">Iniciar</button>
     <button type="button" class="btn btn-danger" id="finalizar" disabled>Finalizar</button>
@@ -90,6 +90,9 @@
       <tbody id="tbody1">
       </tbody>
     </table>
+  </div>
+  <div >
+    <canvas id="myChart"  class = "chart"></canvas>
   </div>
 </body>
 <script type="module">
@@ -143,6 +146,7 @@
         )
         UpdateCheckbox();
       })
+      addChart();
     //firebase.database().ref().
   }
 
@@ -296,7 +300,6 @@
     checkbox.type = "checkbox";
     checkbox.name = "name";
     checkbox.value = "value";
-
     checkbox.id = matricula;
     checkbox.checked = false;
     checkbox.onclick = function () {
@@ -337,7 +340,6 @@
     firebase.database().ref('lista_de_asistencia/1/lista_alumnos').once('value',
       function (AllRecords) {
         var index = 0;
-        console.log(AllRecords.val());
         var keys = Object.keys(AllRecords.val());
         AllRecords.forEach(
           function (currentRecord) {
@@ -354,12 +356,61 @@
           }
         );
       })
+  }
+
+  var Clases = 0;
+  var alumnos = [];
+  var asistencias = [];
+  function addChart(){
+    firebase.database().ref('lista_de_asistencia/1/lista_alumnos').on('value',    
+      function(AllRecords){
+        AllRecords.forEach(
+          function(currentRecord){
+            alumnos.push(currentRecord.key);
+          }
+        );
+      }
+    );
+    console.log(alumnos);
 
   }
 
+  const ctx = document.getElementById('myChart');
+  const myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      
+      labels: ['Red', 'Blue', 'Yellow', 'Green'],
+      datasets: [{
+          label: 'Asistencia por Alumno',
+          data: [12, 19, 3, 5],
+          backgroundColor: [
+              'rgba(255, 99, 132, 0.2)',
+              'rgba(54, 162, 235, 0.2)',
+              'rgba(255, 206, 86, 0.2)',
+              'rgba(75, 192, 192, 0.2)',
+          ],
+          borderColor: [
+              'rgba(255, 99, 132, 1)',
+              'rgba(54, 162, 235, 1)',
+              'rgba(255, 206, 86, 1)',
+              'rgba(75, 192, 192, 1)',
+          ],
+          borderWidth: 1
+      }]
+    },
+    options: {
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+  });    
   window.onload = SelectAllData;
 </script>
 <script src="./functions.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
   integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"
