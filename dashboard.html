@@ -19,7 +19,7 @@
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
     <!--<img src="image2.png" alt="logotec" class="img-logo">-->
     <div class="img-logo"></div>
-    <p id="salon" class="text-salon">Salon 4202</p>
+    <p id="salon" class="text-salon">s-</p>
     <p id="materia" class="text-materia">Iot Grupo 13</p>
     <p id="horario" class="text-horario">7:00 - 13:00</p>
     <p class="text-conf">Configuración</p>
@@ -67,11 +67,17 @@
     </div>
 
   </div>
+  
   <button class="btn btn-success" onclick="openNav()">
     <h2>☰</h2>
   </button>
   <div id="main" class="container">
     <h1 style="color: black;"> Attendance+</h1>
+
+    <button type="button" class="btn btn-success"
+      onclick="document.getElementById('finalizar').disabled=false; this.disabled=true" id="iniciar">Iniciar</button>
+    <button type="button" class="btn btn-danger" id="finalizar" disabled>Finalizar</button>
+
     <table class="table">
       <thead>
         <th>Numero de estudiante</th> <!-- Table Headers -->
@@ -100,6 +106,14 @@
   var nivelLuzGlobal = 0;
   var temperaturaGlobal = 0;
 
+  var salonGlobal = "";
+  var autoVentiladorGlobal = 0;
+  var autoLuzGlobal = 0;
+  var estadoLucesGlobal = 0;
+  var estadoVentiladorGlobal = 0;
+  var nivelLuzGlobal = 0;
+  var temperaturaGlobal = 0;
+
   const firebaseConfig = {
     apiKey: "AIzaSyB3MslqrUfPw56I3Oxh9piHjS_4bFbLA44",
     authDomain: "salon-inteligente-65de7.firebaseapp.com",
@@ -113,19 +127,43 @@
   firebase.initializeApp(firebaseConfig);
 
   function SelectAllData() {
-    firebase.database().ref('estudiantes').once('value',
+    firebase.database().ref('estudiantes').on('value',
       function (AllRecords) {
+        document.getElementById('tbody1').innerHTML = " ";
+        count = 0;
         AllRecords.forEach(
           function (CurrentRecord) {
             var nombre = CurrentRecord.val().nombre;
             var apellido = CurrentRecord.val().apellido;
             var rfid = CurrentRecord.val().rfid;
             var matricula = CurrentRecord.val().matricula;
-            console.log(nombre, apellido, rfid, matricula, "Hello world")
-            AddItemsToTable(nombre, apellido, rfid, matricula);
+            console.log(nombre, apellido, rfid, matricula)
+            queryAsistio(nombre, apellido, rfid, matricula);
           }
         )
+        UpdateCheckbox();
       })
+    //firebase.database().ref().
+  }
+
+  function UpdateCheckbox() {
+    firebase.database().ref('lista_de_asistencia/1/lista_alumnos').on('value',
+      function (AllRecords) {
+        var index = 0;
+        console.log(AllRecords.val());
+        var keys = Object.keys(AllRecords.val());
+        AllRecords.forEach(
+          function (currentRecord) {
+            var asistencia = currentRecord.val().estado_asistencia;
+            document.getElementById(keys[index]).checked = asistencia;
+            index++;
+          }
+        );
+      })
+  }
+
+  function queryAsistio(nombre, apellido, rfid, matricula) {
+    AddItemsToTable(nombre, apellido, rfid, matricula);
   }
 
   document.addEventListener('DOMContentLoaded', function () {
@@ -233,24 +271,7 @@
       temperaturaGlobal = snapshot.val().temperatura;
     });
   }
-  /*$(document).ready(function(){
-    function autoVentiladorChange() {
-      console.log(autoVentilador);
-      var autoVentiladorRef = firebase.database().ref('salon/'+salonGlobal).set({
-      autoVentiladorRef.child("")
-    }
-    $("#autoVentilador").click(autoVentiladorChange);
-  });*/
-
-  function autoLuzChange() {
-  }
-
-  function estadoLucesChange() {
-  }
-
-  function estadoVentiladorChange() {
-  }
-
+  
   var count = 0;
   function AddItemsToTable(nombre, apellido, rfid, matricula) {
     var tbody = document.getElementById('tbody1');
@@ -276,13 +297,64 @@
     checkbox.name = "name";
     checkbox.value = "value";
 
-    checkbox.id = nombre;
+    checkbox.id = matricula;
     checkbox.checked = false;
     checkbox.onclick = function () {
+      var check;
+      if (checkbox.checked) check = 1;
+      else check = 0;
+
+      var current_time = new Date();
+      var hour = current_time.getHours();
+      if (hour < 10) hour = "0" + current_time.getHours().toString();
+      var minutes = current_time.getMinutes();
+      if (minutes < 10) minutes = "0" + current_time.getMinutes().toString();
+
+      firebase.database().ref('lista_de_asistencia/1/lista_alumnos/' + matricula).update({
+        estado_asistencia: check,
+        hora_asistencia: hour + ":" + minutes
+      })
       console.log("Hello there", nombre);
     };
     trow.appendChild(checkbox);
     tbody.appendChild(trow);
+  }
+
+  document.getElementById('finalizar').addEventListener('click', FinalizarClase)
+  function FinalizarClase() {
+    document.getElementById("iniciar").disabled = false;
+    this.disabled = true;
+    var n = 0;
+    firebase.database().ref('lista_de_asistencia/1/nClases').once('value',
+      function (AllRecords) {
+        n = AllRecords.val();
+        firebase.database().ref('lista_de_asistencia/1').update({
+          nClases: n + 1
+        })
+      }
+    )
+
+    firebase.database().ref('lista_de_asistencia/1/lista_alumnos').once('value',
+      function (AllRecords) {
+        var index = 0;
+        console.log(AllRecords.val());
+        var keys = Object.keys(AllRecords.val());
+        AllRecords.forEach(
+          function (currentRecord) {
+            n = currentRecord.val().n_asistencias;
+            if(currentRecord.val().estado_asistencia == 1){
+              firebase.database().ref('lista_de_asistencia/1/lista_alumnos/'+currentRecord.key).update({
+                n_asistencias: n + 1
+              })
+            }
+
+            firebase.database().ref('lista_de_asistencia/1/lista_alumnos/'+currentRecord.key).update({
+              estado_asistencia: 0
+            })
+          }
+        );
+      })
+
   }
 
   window.onload = SelectAllData;
