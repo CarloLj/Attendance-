@@ -336,6 +336,10 @@
                 n_asistencias: n + 1
               })
             }
+
+            firebase.database().ref('lista_de_asistencia/1/lista_alumnos/'+currentRecord.key).update({
+              estado_asistencia: 0
+            })
           }
         );
       })
