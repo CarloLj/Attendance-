@@ -2,6 +2,13 @@ body {
     font-family: "Lato", sans-serif;
 }
 
+#btnNav{
+  margin-top: 22%;
+  padding-top: 40px;
+  padding-bottom: 40px;
+  position: fixed;
+}
+
   .sidebar {
     height: 100%;
     background-color: #0055a6;
@@ -53,10 +60,6 @@ body {
 
   .openbtn:hover {
     background-color: #444;
-  }
-
-  .btn-primary, .btn-primary:hover, .btn-primary:active, .btn-primary:visited {
-    background-color: #8064A2 !important;
   }
 
   .block-switch1 {
@@ -372,17 +375,25 @@ input:checked + .slider:before {
 }
 
   #main {
-    width: auto;
+    width: 80%;
     transition: margin-left .5s;
     padding: 16px;
-    margin-left: 25%;
+    margin-left: 10%;
     margin-right: 50px;
+    margin-top: 0%;
   }
 
   .chart{
-    margin-left: 25%;
-    margin-right: 50px;
+    margin-left: 10%;
+    margin-right: 10%;
     transition: 0.5s; 
     height: auto;
   }
 
+#ligthbar{
+  transition: 0.5s;
+}
+
+#tempbar{
+  transition:0.5s;
+}

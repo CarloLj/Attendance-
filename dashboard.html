@@ -44,7 +44,7 @@
       <p class="text-nose">Nivel de luz:</p>
       <p id="nivelLuz" class="text-dato">-%</p>
       <div class="progress pr-pos">
-        <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+        <div class="progress-bar bg-warning" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" id = "ligthbar"></div>
       </div>
       <p class="text-luces">Luces:</p>
       <label class="switch switch-pos2">
@@ -57,7 +57,7 @@
       <p class="text-nose">Temperatura:</p>
       <p id="temperatura" class="text-dato">-°C</p>
       <div class="progress pr-pos">
-        <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+        <div class="progress-bar bg-danger" role="progressbar" style="width: 0% ;" aria-valuenow= "0" aria-valuemin="0" aria-valuemax="100" id = "tempbar">  </div>
       </div>
       <p class="text-luces">Ventiladores:</p>
       <label class="switch switch-pos2">
@@ -68,7 +68,7 @@
 
   </div>
   
-  <button class="btn btn-success" onclick="openNav()">
+  <button class="btn btn-primary" onclick="openNav()" id = "btnNav">
     <h2>☰</h2>
   </button>
   <div id="main" class="container">
@@ -130,6 +130,7 @@
   firebase.initializeApp(firebaseConfig);
 
   function SelectAllData() {
+    addChart();
     firebase.database().ref('estudiantes').on('value',
       function (AllRecords) {
         document.getElementById('tbody1').innerHTML = " ";
@@ -146,7 +147,6 @@
         )
         UpdateCheckbox();
       })
-      addChart();
     //firebase.database().ref().
   }
 
@@ -207,6 +207,10 @@
     _estadoVentilador.checked = estadoVentiladorGlobal;
     _nivelLuz.innerHTML = ""+nivelLuzGlobal+"%";
     _temperatura.innerHTML = ""+temperaturaGlobal+"C";
+    document.getElementById('tempbar').style.width = temperaturaGlobal + "%";
+    document.getElementById('tempbar').ariaValueNow = temperaturaGlobal;
+    document.getElementById('ligthbar').style.width = nivelLuzGlobal + "%";
+    document.getElementById('ligthbar').ariaValueNow = nivelLuzGlobal;
   }
 
   $(document).ready(function(){
@@ -356,6 +360,7 @@
           }
         );
       })
+      addChart();
   }
 
   var Clases = 0;
@@ -364,6 +369,7 @@
   function addChart(){
     firebase.database().ref('lista_de_asistencia/1/lista_alumnos').on('value',    
       function(AllRecords){
+        alumnos = [];
         AllRecords.forEach(
           function(currentRecord){
             alumnos.push(currentRecord.key);
@@ -371,30 +377,42 @@
         );
       }
     );
-    console.log(alumnos);
-
+    
+    firebase.database().ref('lista_de_asistencia/1/lista_alumnos').on('value',    
+      function(AllRecords){
+        asistencias = [];
+        AllRecords.forEach(
+          function(currentRecord){
+            asistencias.push(currentRecord.val().n_asistencias);
+          }
+        );
+        myChart.data.labels = [];
+        myChart.data.datasets.forEach((dataset) => {
+            dataset.data = [];
+        });
+        
+        for(var i = 0; i < alumnos.length;i++){
+          addData(myChart,alumnos[i],asistencias[i]);
+        }
+      }
+    );
   }
 
   const ctx = document.getElementById('myChart');
+  console.log(alumnos);
   const myChart = new Chart(ctx, {
     type: 'bar',
     data: {
       
-      labels: ['Red', 'Blue', 'Yellow', 'Green'],
+      labels: ['matricula'],
       datasets: [{
           label: 'Asistencia por Alumno',
-          data: [12, 19, 3, 5],
+          data: [0],
           backgroundColor: [
-              'rgba(255, 99, 132, 0.2)',
               'rgba(54, 162, 235, 0.2)',
-              'rgba(255, 206, 86, 0.2)',
-              'rgba(75, 192, 192, 0.2)',
           ],
           borderColor: [
-              'rgba(255, 99, 132, 1)',
               'rgba(54, 162, 235, 1)',
-              'rgba(255, 206, 86, 1)',
-              'rgba(75, 192, 192, 1)',
           ],
           borderWidth: 1
       }]
@@ -406,7 +424,16 @@
             }
         }
     }
-  });    
+  });
+  
+  function addData(chart, label, data) {
+    chart.data.labels.push(label);
+    chart.data.datasets.forEach((dataset) => {
+        dataset.data.push(data);
+    });
+    chart.update();
+    }
+
   window.onload = SelectAllData;
 </script>
 <script src="./functions.js"></script>
