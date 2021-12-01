@@ -4,7 +4,7 @@ body {
 
 #btnNav{
   background-color: #0055a6;
-  margin-top: 20%;
+  margin-top: 22%;
   width: 60px;
   padding-top: 40px;
   padding-bottom: 40px;
@@ -14,12 +14,12 @@ body {
 
 #btnNav:hover{
   transition: ease 0.5s;
-  width: 5%;
+  width: 10%;
 }
 
 #btnNav:hover > #bars{
   transition: 0.5s;
-  font-size: 35px;
+  font-size: 28px;
 }
 
 #bars{
@@ -394,11 +394,11 @@ input:checked + .slider:before {
 }
 
   #main {
+    margin-left: 10%;
+    margin-right: 10%;
     width: 80%;
     transition: margin-left .5s;
     padding: 16px;
-    margin-left: 10%;
-    margin-right: 50px;
     margin-top: 0%;
   }
 
