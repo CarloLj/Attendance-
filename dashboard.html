@@ -99,6 +99,14 @@
   import { getDatabase, ref, onValue } from 'https://www.gstatic.com/firebasejs/9.5.0/firebase-database.js'
   // https://firebase.google.com/docs/web/setup#available-libraries
 
+  var salonGlobal = "";
+  var autoVentiladorGlobal = 0;
+  var autoLuzGlobal = 0;
+  var estadoLucesGlobal = 0;
+  var estadoVentiladorGlobal = 0;
+  var nivelLuzGlobal = 0;
+  var temperaturaGlobal = 0;
+
   const firebaseConfig = {
     apiKey: "AIzaSyB3MslqrUfPw56I3Oxh9piHjS_4bFbLA44",
     authDomain: "salon-inteligente-65de7.firebaseapp.com",
@@ -110,8 +118,6 @@
   };
   // Initialize Firebase
   firebase.initializeApp(firebaseConfig);
-
-
 
   function SelectAllData() {
     firebase.database().ref('estudiantes').on('value',
@@ -150,31 +156,111 @@
   }
 
   document.addEventListener('DOMContentLoaded', function () {
-    firebase.database().ref('salon').once('value',
+    firebase.database().ref('salon').on('value',
       function (AllRecords) {
         AllRecords.forEach(
           function (CurrentRecord) {
             var salon = AllRecords.val();
-            var autoLuz = CurrentRecord.val().autoLuz;
-            var autoVentilador = CurrentRecord.val().autoVentilador;
-            var estadoLuces = CurrentRecord.val().estadoLuces;
-            var estadoVentilador = CurrentRecord.val().estadoVentilador;
-            var nivelLuz = CurrentRecord.val().nivelLuz;
-            var temperatura = CurrentRecord.val().temperatura;
-            console.log(Object.keys(salon)[0], autoLuz, autoVentilador, estadoLuces, estadoVentilador, nivelLuz, temperatura)
-            var salon = document.getElementById('salon')
-            var autoLuz = document.getElementById('autoLuz');
-            var autoVentilador = document.getElementById('autoVentilador');
-            var estadoLuces = document.getElementById('estadoLuces');
-            var estadoVentilador = document.getElementById('estadoVentilador');
-            var nivelLuz = document.getElementById('nivelLuz');
-            var temperatura = document.getElementById('temperatura');
+            autoLuzGlobal = CurrentRecord.val().autoLuz;
+            autoVentiladorGlobal = CurrentRecord.val().autoVentilador;
+            estadoLucesGlobal = CurrentRecord.val().estadoLuces;
+            estadoVentiladorGlobal = CurrentRecord.val().estadoVentilador;
+            nivelLuzGlobal = CurrentRecord.val().nivelLuz;
+            temperaturaGlobal = CurrentRecord.val().temperatura;
+            var _salon = document.getElementById('salon')
+            var _autoLuz = document.getElementById('autoLuz');
+            var _autoVentilador = document.getElementById('autoVentilador');
+            var _estadoLuces = document.getElementById('estadoLuces');
+            var _estadoVentilador = document.getElementById('estadoVentilador');
+            var _nivelLuz = document.getElementById('nivelLuz');
+            var _temperatura = document.getElementById('temperatura');
+            updateSidebar(_salon, _autoLuz, _autoVentilador, _estadoLuces, _estadoVentilador, _nivelLuz, _temperatura, 
+            Object.keys(salon)[0]);
             //salon.innerHTML = Object.keys(salon)[0];
           }
         )
       })
   }, false);
 
+  function updateSidebar(_salon, _autoLuz, _autoVentilador, _estadoLuces, _estadoVentilador, _nivelLuz, _temperatura, 
+            salon) {
+    salonGlobal = salon;
+    _salon.innerHTML = ""+salon;
+    _autoLuz.checked = autoLuzGlobal;
+    _autoVentilador.checked = autoVentiladorGlobal;
+    _estadoLuces.checked = estadoLucesGlobal;
+    _estadoVentilador.checked = estadoVentiladorGlobal;
+    _nivelLuz.innerHTML = ""+nivelLuzGlobal+"%";
+    _temperatura.innerHTML = ""+temperaturaGlobal+"C";
+  }
+
+  $(document).ready(function(){
+    function autoVentiladorChange() {
+      getSalon();
+      if(autoVentiladorGlobal){
+        autoVentiladorGlobal = 0;
+      } else {
+        autoVentiladorGlobal = 1;
+      }
+      updateSalon();
+    }
+    function autoLuzChange() {
+      getSalon();
+      if(autoLuzGlobal){
+        autoLuzGlobal = 0;
+      } else {
+        autoLuzGlobal = 1;
+      }
+      updateSalon();
+    }
+    function estadoLucesChange() {
+      getSalon();
+      if(estadoLucesGlobal){
+        estadoLucesGlobal = 0;
+      } else {
+        estadoLucesGlobal = 1;
+      }
+      updateSalon();
+    }
+    function estadoVentiladorChange() {
+      getSalon();
+      if(estadoVentiladorGlobal){
+        estadoVentiladorGlobal = 0;
+      } else {
+        estadoVentiladorGlobal = 1;
+      }
+      updateSalon();
+    }
+    $("#autoVentilador").click(autoVentiladorChange);
+    $("#autoLuz").click(autoLuzChange);
+    $("#estadoLuces").click(estadoLucesChange);
+    $("#estadoVentilador").click(estadoVentiladorChange);
+  }); 
+
+  function updateSalon() {
+    var salon = firebase.database().ref('salon/'+salonGlobal).set({
+        autoVentilador: autoVentiladorGlobal,
+        autoLuz: autoLuzGlobal,
+        estadoLuces: estadoLucesGlobal,
+        estadoVentilador: estadoVentiladorGlobal, 
+        nivelLuz: nivelLuzGlobal,
+        temperatura: temperaturaGlobal
+    });
+  }
+  function getSalon() {
+    var autoVentilador;
+    var auto
+    var ref = firebase.database().ref("salon/"+salonGlobal);
+    ref.on("value", function(snapshot) {
+      autoVentiladorGlobal = snapshot.val().autoVentilador;
+      autoLuzGlobal = snapshot.val().autoLuz;
+      estadoLucesGlobal = snapshot.val().estadoLuces;
+      estadoVentiladorGlobal = snapshot.val().estadoVentilador;
+      nivelLuzGlobal = snapshot.val().nivelLuz;
+      temperaturaGlobal = snapshot.val().temperatura;
+    });
+  }
+  
   var count = 0;
   function AddItemsToTable(nombre, apellido, rfid, matricula) {
     var tbody = document.getElementById('tbody1');
