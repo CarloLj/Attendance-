@@ -90,6 +90,8 @@
       <tbody id="tbody1">
       </tbody>
     </table>
+    <h3 id="clases">Clases totales: </h3>
+
   </div>
   <div >
     <canvas id="myChart"  class = "chart"></canvas>
@@ -265,6 +267,20 @@
         nivelLuz: nivelLuzGlobal,
         temperatura: temperaturaGlobal
     });
+    if(autoVentiladorGlobal == 1){
+      document.getElementById('estadoVentilador').disabled = true;
+    }else{
+      document.getElementById('estadoVentilador').disabled = false;
+    }
+
+    if(autoLuzGlobal == 1){
+      document.getElementById('estadoLuces').disabled = true;
+
+    }else{
+      document.getElementById('estadoLuces').disabled = false;
+
+    }
+
   }
   function getSalon() {
     var autoVentilador;
@@ -396,10 +412,15 @@
         }
       }
     );
+
+    firebase.database().ref('lista_de_asistencia/1/nClases').on('value',
+      function(AllRecords){
+        document.getElementById('clases').innerHTML = "Clases Totales: "+ AllRecords.val();
+      }
+    );
   }
 
   const ctx = document.getElementById('myChart');
-  console.log(alumnos);
   const myChart = new Chart(ctx, {
     type: 'bar',
     data: {
